@@ -1,8 +1,8 @@
 # Grackle-Swift
 
-This is a fork of the [grackle](https://github.com/grackle-project/grackle) 
-library, intended to keep a frozen version of the library which is known and 
-tested to work with GEAR-RT in [swift](https://github.com/SWIFTSIM/swiftsim) 
+This is a fork of the [grackle](https://github.com/grackle-project/grackle)
+library, intended to keep a frozen version of the library which is known and
+tested to work with GEAR-RT in [swift](https://github.com/SWIFTSIM/swiftsim)
 publicly available.
 
 All installation instructions and dependencies remain identical to the upstream
@@ -16,17 +16,65 @@ that all paths are set correctly and up to date. Then run `src/clib/myinstall.sh
 
 ## Grackle-Swift as a spack package
 
-Additionally, I've added the relevant files to make grackle-swift available as a 
-[spack](https://github.com/spack/spack) package. The installation is 
-straightforward:
+Additionally, I've added the relevant files to make grackle-swift available as a
+[spack](https://github.com/spack/spack) package. It is however not part of the
+spack repository, so it needs a few easy steps to set up. This way of installing
+it is valid for newer versions of spack (~v1.0). For old instructions, see below.
 
-- Copy the directory `/grackle-swift/spack/var/spack/repos/builtin/packages/grackle-swift` 
-and its contents into the corresponding directory in your spack clone (in the 
-spack clone, the directory `/spack/var/spack/repos/builtin/packages` should exist 
+First, get my fork of the spack-packages repository:
+
+```
+git clone https://github.com/mladenivkovic/spack-packages.git ~/spack-packages
+```
+
+or
+
+```
+git clone git@github.com:mladenivkovic/spack-packages.git ~/spack-packages
+```
+
+Next, navigate into the repo and check out the `grackle-swift` branch:
+
+```
+$ cd ~/grackle-swift
+$ git checkout grackle-swift
+```
+
+Then tell spack to use that repository as its database:
+
+```
+$ spack repo set --destination ~/spack-packages builtin
+```
+
+Finally, install grackle-swift the way you would install any other package with spack. E.g.
+
+```
+$ spack install grackle-swift
+```
+
+or
+
+```
+$ spack install grackle-swift ^hdf5@1.14.6 %gcc@15.1.0
+```
+
+
+
+### Old instructions
+
+In older versions of spack (before ~2025, ~v0.23), it was sufficient to copy the
+contents of a directory into the spack repository, and that was that. I'm keeping
+these instructions in case somebody is still using the older versions.
+
+The installation is straightforward:
+
+- Copy the directory `/grackle-swift/spack/var/spack/repos/builtin/packages/grackle-swift`
+and its contents into the corresponding directory in your spack clone (in the
+spack clone, the directory `/spack/var/spack/repos/builtin/packages` should exist
 by default. That's where spack keeps all its packages.)
-- **IMPORTANT**: Copy and use the files stored in the `main` branch. Do not use 
+- **IMPORTANT**: Copy and use the files stored in the `main` branch. Do not use
 the files stored in the `freeze` branch. (Spack requires an md5sum to verify the
-integrity of the downloaded files. The stored md5sum in the `freeze` branch will 
+integrity of the downloaded files. The stored md5sum in the `freeze` branch will
 be wrong, and spack will refuse to install it. Correcting the md5sum on the `freeze`
 branch changes its md5sum, making it wrong again. So that won't work.)
 - install grackle-swift the way you would install any other package with spack. E.g.
